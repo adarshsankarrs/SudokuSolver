@@ -1,0 +1,5 @@
+opencv-python
+imutils
+tensorflow==2.7
+scikit-image
+flask

@@ -1,0 +1,61 @@
+{% extends "default.html" %} {% block body %}
+<div class="main-box">
+    {% if state==0 %}
+    <h2>Upload an image to get started!</h2>
+    {% elif state==1 %}
+    <h2>Correct the sudoku grid in case of any discrepancies!</h2>
+    {% else %}
+    <h2>Solved Sudoku Board!</h2>
+    {% endif %}
+
+    <div class="view-img">
+        {% if state==0 %}
+        <img src="{{ url_for('static',filename='images/sudoku.jpg') }}" alt="Sudoku HD pic" style="width: 30%; height: 30%" /> {% elif state==1 %}
+        <img src="{{ url_for('static',filename='working-dir/warped_image.png') }}" alt="Sudoku HD pic" style="width: 30%; height: 30%" />
+        <div id="sudoku">
+            <form action="{{ url_for('home') }}" method="POST" id="sudoku-form">
+                <table>
+                    {%- for i in range(9) %} {% set outer_loop = loop %}
+                    <tr>
+                        {%- for j in range(9) %}
+                        <th><input type="text" id="field{{ outer_loop.index0 }}{{ loop.index0 }}" name="field{{ outer_loop.index0 }}{{ loop.index0 }}" size="1" value={{ arr[i][j] }}></th>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </table>
+        </div>
+        {% else %}
+        <img src="{{ url_for('static',filename='working-dir/final_output.png') }}" alt="Sudoku HD pic" style="width: 35%; height: 35%" /> {% endif %}
+        </form>
+    </div>
+    <form action="{{ url_for('home') }}" method="POST" enctype="multipart/form-data" id="main-form">
+        <br><br>
+        <div class="input-file">
+            {% if state==0 %}
+            <input type="file" name="file" /> {% endif %}
+        </div>
+        <div class="submit-button">
+            {% if state==0 %}
+            <a href="#" onclick="document.getElementById('main-form').submit();">
+          {% elif state==1 %}
+        <a href="#" onclick="document.getElementById('sudoku-form').submit();">
+          {% else %}
+        <a href="{{ url_for('home') }}">
+          {% endif %}
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          {% if state==0 %}
+          <div>upload</div>
+          {% elif state==1 %}
+          <div>continue</div>
+          {% else %}
+          <div>go back</div>
+          {% endif %}
+        </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+</div>
